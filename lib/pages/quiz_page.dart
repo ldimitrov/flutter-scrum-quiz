@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_scrum_quiz/util/question.dart';
 import 'package:flutter_scrum_quiz/util/quiz.dart';
 import 'package:flutter_scrum_quiz/ui_elements/answer_button.dart';
+import 'package:flutter_scrum_quiz/ui_elements/question_text.dart';
 
 class QuizPage extends StatefulWidget {
   @override
@@ -16,6 +17,7 @@ class QuizPageState extends State<QuizPage> {
         new Column(
           children: <Widget>[
             new AnswerButton(true, () => print("correct")),
+            new QuestionText("Pizza is nice", 1),
             new AnswerButton(false, () => print("false")),
           ],
         ),
