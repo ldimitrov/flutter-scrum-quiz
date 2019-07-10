@@ -34,6 +34,14 @@ class QuizPageState extends State<QuizPage> {
     questionText = currentQuestion.question;
   }
 
+  void handleAnswer(bool answer) {
+    isCorrect = (currentQuestion.answer == answer);
+    quiz.answer(isCorrect);
+    this.setState(() {
+      overlayIsVisible = true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Stack(
@@ -41,12 +49,21 @@ class QuizPageState extends State<QuizPage> {
       children: <Widget>[
         new Column(
           children: <Widget>[
-            new AnswerButton(true, () => print("correct")),
+            new AnswerButton(true, () => handleAnswer(true)),
             new QuestionText(questionText, questionNumber),
-            new AnswerButton(false, () => print("false")),
+            new AnswerButton(false, () => handleAnswer(false)),
           ],
         ),
-        overlayIsVisible == true ? new AnswerOverlay(true) : new Container()
+        overlayIsVisible == true ? new AnswerOverlay(isCorrect, 
+        () {
+          currentQuestion = quiz.nextQuestion;
+          this.setState(() {
+            overlayIsVisible = false;
+            questionText = currentQuestion.question;
+            questionNumber = quiz.questionNumber;
+          });
+        }
+        ) : new Container()
       ],
     );
   }
