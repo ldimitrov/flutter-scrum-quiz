@@ -20,9 +20,9 @@ class LandingPage extends StatelessWidget {
                     color: Colors.white,
                     fontSize: 20.0,
                     fontWeight: FontWeight.bold))
-          ], // Widget[]
-        ), // Column
-      ), // Inkwell
-    ); // Material
+          ],
+        ),
+      ),
+    );
   }
 }
