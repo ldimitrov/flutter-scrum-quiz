@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_scrum_quiz/pages/score_page.dart';
 import 'package:flutter_scrum_quiz/util/question.dart';
 import 'package:flutter_scrum_quiz/util/quiz.dart';
 import 'package:flutter_scrum_quiz/ui_elements/answer_button.dart';
@@ -7,18 +8,18 @@ import 'package:flutter_scrum_quiz/ui_elements/answer_overlay.dart';
 
 class QuizPage extends StatefulWidget {
   @override
-  State createState() => new QuizPageState();
+  State createState() => QuizPageState();
 }
 
 class QuizPageState extends State<QuizPage> {
   Question currentQuestion;
-  Quiz quiz = new Quiz([
-    new Question("Scrum is agile metodology", true),
-    new Question("All activities in Scrum have a timebox", true),
-    new Question("The product owner has the final word on the backlog", true),
-    new Question("Sprint planing must be done every week", false),
-    new Question("Sprint duration is always 2 weeks", false),
-    new Question("Scrum advocates for teams with more than 9 people", false),
+  Quiz quiz = Quiz([
+    Question("Scrum is agile metodology", true),
+    Question("All activities in Scrum have a timebox", true),
+    Question("The product owner has the final word on the backlog", true),
+    Question("Sprint planing must be done every week", false),
+    Question("Sprint duration is always 2 weeks", false),
+    Question("Scrum advocates for teams with more than 9 people", false),
   ]);
 
   String questionText;
@@ -44,26 +45,34 @@ class QuizPageState extends State<QuizPage> {
 
   @override
   Widget build(BuildContext context) {
-    return new Stack(
+    return Stack(
       fit: StackFit.expand,
       children: <Widget>[
-        new Column(
+        Column(
           children: <Widget>[
-            new AnswerButton(true, () => handleAnswer(true)),
-            new QuestionText(questionText, questionNumber),
-            new AnswerButton(false, () => handleAnswer(false)),
+            AnswerButton(true, () => handleAnswer(true)),
+            QuestionText(questionText, questionNumber),
+            AnswerButton(false, () => handleAnswer(false)),
           ],
         ),
-        overlayIsVisible == true ? new AnswerOverlay(isCorrect, 
-        () {
-          currentQuestion = quiz.nextQuestion;
-          this.setState(() {
-            overlayIsVisible = false;
-            questionText = currentQuestion.question;
-            questionNumber = quiz.questionNumber;
-          });
-        }
-        ) : new Container()
+        overlayIsVisible == true
+            ? AnswerOverlay(isCorrect, () {
+                if (quiz.length == questionNumber) {
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              ScoreBoardPage(quiz.score, quiz.length)),
+                      (Route<dynamic> route) => false);
+                  return;
+                }
+                currentQuestion = quiz.nextQuestion;
+                this.setState(() {
+                  overlayIsVisible = false;
+                  questionText = currentQuestion.question;
+                  questionNumber = quiz.questionNumber;
+                });
+              })
+            : Container()
       ],
     );
   }
