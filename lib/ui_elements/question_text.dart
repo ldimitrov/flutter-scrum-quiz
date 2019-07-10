@@ -7,7 +7,7 @@ class QuestionText extends StatefulWidget {
   QuestionText(this._question, this._questionNumber);
 
   @override
-  State createState() => new QuestionTextState();
+  State createState() => QuestionTextState();
 }
 
 class QuestionTextState extends State<QuestionText>
@@ -18,12 +18,18 @@ class QuestionTextState extends State<QuestionText>
   @override
   void initState() {
     super.initState();
-    _fontSizeAnimationController = new AnimationController(
-        duration: new Duration(milliseconds: 500), vsync: this);
-    _fontSizeAnimation = new CurvedAnimation(
+    _fontSizeAnimationController =
+        AnimationController(duration: Duration(milliseconds: 500), vsync: this);
+    _fontSizeAnimation = CurvedAnimation(
         parent: _fontSizeAnimationController, curve: Curves.bounceOut);
     _fontSizeAnimation.addListener(() => this.setState(() {}));
     _fontSizeAnimationController.forward();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _fontSizeAnimationController.dispose();
   }
 
   @override
@@ -37,14 +43,14 @@ class QuestionTextState extends State<QuestionText>
 
   @override
   Widget build(BuildContext context) {
-    return new Material(
+    return Material(
       color: Colors.white,
-      child: new Padding(
-          padding: new EdgeInsets.symmetric(vertical: 20.0),
-          child: new Center(
-            child: new Text(
+      child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 20.0),
+          child: Center(
+            child: Text(
               widget._questionNumber.toString() + ". " + widget._question + "?",
-              style: new TextStyle(fontSize: _fontSizeAnimation.value * 15),
+              style: TextStyle(fontSize: _fontSizeAnimation.value * 15),
             ),
           )),
     );

@@ -4,20 +4,21 @@ import 'quiz_page.dart';
 class LandingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new Material(
+    return Material(
       color: Colors.green,
-      child: new InkWell(
-      onTap: () => Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context) => new QuizPage())),
-        child: new Column(
+      child: InkWell(
+        onTap: () => Navigator.of(context).push(
+            MaterialPageRoute(builder: (BuildContext context) => QuizPage())),
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            new Text("Let's quiz",
-                style: new TextStyle(
+            Text("Let's quiz",
+                style: TextStyle(
                     color: Colors.white,
                     fontSize: 50.0,
                     fontWeight: FontWeight.bold)),
-            new Text("Tap to start!",
-                style: new TextStyle(
+            Text("Tap to start!",
+                style: TextStyle(
                     color: Colors.white,
                     fontSize: 20.0,
                     fontWeight: FontWeight.bold))
